@@ -1,0 +1,7 @@
+ESP32BeepCodes KEYWORD1
+play KEYWORD2
+stop KEYWORD2
+update KEYWORD2
+setFrequency KEYWORD2
+setTimings KEYWORD2
+isPlaying KEYWORD2
