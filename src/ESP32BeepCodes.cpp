@@ -21,8 +21,14 @@ ESP32BeepCodes::ESP32BeepCodes(uint8_t gpioPin,
       _stateStart(0) {}
 
 void ESP32BeepCodes::begin() {
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    // Arduino ESP32 core v3.x API
+    ledcAttach(_pin, _frequency, 10); // pin, frequency, resolution
+#else
+    // Arduino ESP32 core v2.x API
     ledcSetup(_channel, _frequency, 10);
     ledcAttachPin(_pin, _channel);
+#endif
     toneOff();
 }
 
@@ -47,7 +53,11 @@ void ESP32BeepCodes::stop() {
 
 void ESP32BeepCodes::setFrequency(uint16_t hz) {
     _frequency = hz;
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    ledcAttach(_pin, _frequency, 10);
+#else
     ledcSetup(_channel, _frequency, 10);
+#endif
 }
 
 void ESP32BeepCodes::setTimings(uint32_t shortMs, uint32_t longMs, uint32_t gapMs, uint32_t sequenceGapMs) {
