@@ -114,9 +114,17 @@ void ESP32BeepCodes::update() {
 }
 
 void ESP32BeepCodes::toneOn() {
-    ledcWrite(_channel, 512);
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    ledcWrite(_pin, 512);  // v3.x uses pin
+#else
+    ledcWrite(_channel, 512);  // v2.x uses channel
+#endif
 }
 
 void ESP32BeepCodes::toneOff() {
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    ledcWrite(_pin, 0);
+#else
     ledcWrite(_channel, 0);
+#endif
 }
